@@ -70,23 +70,21 @@ void renderMesh() {
 		glBegin(GL_LINES);
 		glColor3f(0,1,0);
 		for (Mesh::ConstVertexIter it = mesh.vertices_begin(); it != mesh.vertices_end(); ++it) {
-		CurvatureInfo info = mesh.property(curvature, it.handle());
-		Vec3f p = mesh.point(it.handle());
-		Vec3f e1 = info.directions[0];
-		Vec3f e2 = info.directions[1];
+			CurvatureInfo info = mesh.property(curvature, it.handle());
+			Vec3f p = mesh.point(it.handle());
+			Vec3f e1 = info.directions[0];
+			Vec3f e2 = info.directions[1];
+			
+			float vecLen = .01f;
+			Vec3f d1Forward = p + e1 * vecLen;
+			Vec3f d1Back = p - e1 * vecLen;
+			glVertex3f(d1Forward[0], d1Forward[1], d1Forward[2]);
+			glVertex3f(d1Back[0], d1Back[1], d1Back[2]);
 		
-		/*std::cout << "Break" << std::endl;
-		std::cout << p << std::endl;
-		std::cout << e1 << std::endl;
-		std::cout << e2 << std::endl;*/
-		
-		Vec3f d1 = p + e1 * .02;
-		glVertex3f(p[0],p[1],p[2]);
-		glVertex3f(d1[0],d1[1],d1[2]);
-		
-		Vec3f d2 = p + e2 * .02;
-		glVertex3f(p[0],p[1],p[2]);
-		glVertex3f(d2[0],d2[1],d2[2]);
+			Vec3f d2Forward = p + e2 * vecLen;
+			Vec3f d2Back = p - e2 * vecLen;
+			glVertex3f(d2Forward[0], d2Forward[1], d2Forward[2]);
+			glVertex3f(d2Back[0], d2Back[1], d2Back[2]);
 		}
 		glEnd();
 	}

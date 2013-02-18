@@ -25,43 +25,63 @@ float specular[] = { 1.0, 1.0, 1.0, 1.0 };
 float shininess[] = { 50.0 };
 
 void renderMesh() {
-	if (!showSurface) glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE); // render regardless to remove hidden lines
+  // render regardless to remove hidden lines
+  if (!showSurface) glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE); 
 	
-	glEnable(GL_LIGHTING);
-	glLightfv(GL_LIGHT0, GL_POSITION, cameraPos);
+  glEnable(GL_LIGHTING);
+  glLightfv(GL_LIGHT0, GL_POSITION, cameraPos);
 
-	glDepthRange(0.001,1);
-	glEnable(GL_NORMALIZE);
+  glDepthRange(0.001,1);
+  glEnable(GL_NORMALIZE);
 	
-	// WRITE CODE HERE TO RENDER THE TRIANGLES OF THE MESH ---------------------------------------------------------
+  // WRITE CODE HERE TO RENDER THE TRIANGLES OF THE MESH -----------------------------------------
+  for (Mesh::FaceIter f_it = mesh.faces_begin(); f_it != mesh.faces_end(); ++f_it) {
+    OpenMesh::Vec3f pointA, pointB, pointC;
+    Mesh::ConstFaceVertexIter cfvIt;
+    cfvIt = mesh.cfv_iter(f_it.handle());
+    glBegin(GL_TRIANGLES);
+    glColor3f(0.1, 0.2, 0.3);
+    pointA = mesh.point(cfvIt.handle());
+    Vec3f nA = mesh.normal(cfvIt.handle());
+    glNormal3d(nA[0], nA[1], nA[2]);
+    glVertex3f(pointA[0], pointA[1], pointA[2]);
+    pointB = mesh.point((++cfvIt).handle());
+    Vec3f nB = mesh.normal(cfvIt.handle());
+    glNormal3d(nB[0], nB[1], nB[2]);
+    glVertex3f(pointB[0], pointB[1], pointB[2]);
+    pointC = mesh.point((++cfvIt).handle());
+    Vec3f nC = mesh.normal(cfvIt.handle());
+    glNormal3d(nC[0], nC[1], nC[2]);
+    glVertex3f(pointC[0], pointC[1], pointC[2]);
+    glEnd();
+  }
+  // ---------------------------------------------------------------------------------------------
+    
+  if (!showSurface) glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
 	
-	// -------------------------------------------------------------------------------------------------------------
+  glDisable(GL_LIGHTING);
+  glDepthRange(0,0.999);
 	
-	if (!showSurface) glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
-	
-	glDisable(GL_LIGHTING);
-	glDepthRange(0,0.999);
-	
-	if (showCurvature) {
-		// WRITE CODE HERE TO RENDER THE PRINCIPAL DIRECTIONS YOU COMPUTED ---------------------------------------------
+  if (showCurvature) {
+    // WRITE CODE HERE TO RENDER THE PRINCIPAL DIRECTIONS YOU COMPUTED -------------------------------------
 
-		// -------------------------------------------------------------------------------------------------------------
-	}
+    // ------------------------------------------------------------------------------------------------------
+  }
 	
-	if (showNormals) {
-		glBegin(GL_LINES);
-		glColor3f(0,1,0);
-		for (Mesh::ConstVertexIter it = mesh.vertices_begin(); it != mesh.vertices_end(); ++it) {
-			Vec3f n = mesh.normal(it.handle());
-			Vec3f p = mesh.point(it.handle());
-			Vec3f d = p + n*.01;
-			glVertex3f(p[0],p[1],p[2]);
-			glVertex3f(d[0],d[1],d[2]);
-		}
-		glEnd();
-	}
-	
-	glDepthRange(0,1);
+  if (showNormals) {
+    glBegin(GL_LINES);
+    glColor3f(0,1,0);
+    for (Mesh::ConstVertexIter it = mesh.vertices_begin(); it != mesh.vertices_end(); ++it) {
+      Vec3f n = mesh.normal(it.handle());
+      Vec3f p = mesh.point(it.handle());
+      Vec3f d = p + n*.01;
+      glVertex3f(p[0],p[1],p[2]);
+      glVertex3f(d[0],d[1],d[2]);
+    }
+    glEnd();
+  }
+  
+  glDepthRange(0,1);
 }
 
 void display() {

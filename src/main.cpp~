@@ -75,10 +75,10 @@ void renderMesh() {
 		Vec3f e1 = info.directions[0];
 		Vec3f e2 = info.directions[1];
 		
-		/*std::cout << "Break" << std::endl;
+		std::cout << "Break" << std::endl;
 		std::cout << p << std::endl;
 		std::cout << e1 << std::endl;
-		std::cout << e2 << std::endl;*/
+		std::cout << e2 << std::endl;
 		
 		Vec3f d1 = p + e1 * .02;
 		glVertex3f(p[0],p[1],p[2]);

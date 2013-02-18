@@ -36,7 +36,6 @@ void computeCurvature(Mesh &mesh, OpenMesh::VPropHandleT<CurvatureInfo> &curvatu
 			// Calculate weight
 			double w_ij = 0.0;
 			w_ij += mesh.calc_sector_area(voh_v_it.handle());
-			// this does not work for some reason
 			//Vec3f n1 = mesh.normal(voh_v_it.handle());
 			//avgNor += w_ij * Vector3d(n1[0], n1[1], n1[2]);
 			//double tmp = mesh.calc_sector_area(mesh.opposite_halfedge_handle(voh_v_it.handle()));

@@ -1,0 +1,19 @@
+Team members
+----------------------
+Aric Bartle
+Kseniya Charova
+Tianxin Dai
+----------------------
+
+Index to functions
+----------------------
+main.cpp
+renderMesh() - 1. we added code to loop over the faces of the mesh and draw the triangles 2. we added code to draw the two principle directions
+
+curvature.cpp
+computeCurvature() - we added code to compute the principal directions and associated curvatures
+
+
+
+
+
